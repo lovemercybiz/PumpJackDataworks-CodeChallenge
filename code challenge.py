@@ -16,13 +16,14 @@
 import pandas as pd
 
 data = pd.read_csv(
-    'flat_data.csv', 
-    header=None,
-    skiprows=1
+    'flat_data.csv', #file
+    header=None, # create columns in arrary notation
+    skiprows=1 #skip first line of file
     )
-df = pd.DataFrame(data[0].str.split(',').tolist())
-df[2] = pd.to_numeric(df[2])
-df[4] = pd.to_numeric(df[4])
-df["updated_salaries"]= df[2] + df[4]
-df["updated_salaries"] = ((df[2] * (df[4] / 100)) + df[2] ).astype(int)
-df.rename(index=str, columns={0: "first_name", 1:"last_name", 2:"salary", 3:"dept_name",4:"salary_increment"})
+df = pd.DataFrame(data[0].str.split(',').tolist()) #split quotes text by commas
+df[2] = pd.to_numeric(df[2]) #convert column to int64
+df[4] = pd.to_numeric(df[4]) #convert column to int64
+df["updated_salaries"] = ((df[2] * (df[4] / 100)) + df[2] ).astype(int)  #create new column which is the new salary after raise
+df = df.rename(index=str, columns={0: "first_name", 1:"last_name", 2:"salary", 3:"dept_name",4:"salary_increment"}) #rename columns
+df.to_csv("new_data.csv",index=False) #save to new csv file
+print(df) #return
